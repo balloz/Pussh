@@ -33,8 +33,8 @@ class Service extends ServiceSettings {
             url: this.getSetting('upload_url'),
             body: fs.readFileSync(filePath)
         }, (err, res, body) => {
-            if (err || !res || res.statusCode !== 200 || !body) {
-                return callback(new Error(`HTTP error occurred: ${err ? err.message : `${response && response.statusCode} server response code`}`));
+            if (err || !res || res.statusCode < 200 || res.statusCode > 299 || !body) {
+                return callback(new Error(`HTTP error occurred: ${err ? err.message : `${res && res.statusCode} server response code`}`));
             }
 
             callback(null, body);
